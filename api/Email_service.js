@@ -1,6 +1,9 @@
 import { createTransport } from 'nodemailer';
 
 export default async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // or '*' for any origin
+  res.setHeader('Access-Control-Allow-Methods', 'POST'); // Allow only POST method
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'POST') {
     const { email, orderSummary } = req.body;
 
