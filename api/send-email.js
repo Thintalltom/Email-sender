@@ -1,12 +1,16 @@
 import nodemailer from 'nodemailer';
-const cors = require('cors');
 
-// Enable CORS for all origins
-app.use(cors());
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Or specify your frontend URL
+  // Enable CORS by setting headers directly
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with your frontend URL for more security
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle OPTIONS preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method === 'POST') {
     const { email, orderSummary } = req.body;
 
@@ -60,6 +64,3 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
   }
 }
-app.use(cors({
-  origin: 'http://localhost:5173', // Allow only requests from this domain
-}));
