@@ -94,7 +94,7 @@ export default async function handler(req, res) {
 
       // Use correct Gmail transport config
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
         auth: {
           user: process.env.EMAIL,
           pass: process.env.PASSWORD,
