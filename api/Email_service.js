@@ -8,8 +8,8 @@ export default async (req, res) => {
     const transporter = createTransport({
       service: 'gmail',
       auth: {
-        user: import.meta.env.VITE_EMAIL, // Use your Gmail address
-        pass: import.meta.env.VITE_PASSWORD,  // Use your Gmail app-specific password
+        user: process.env.EMAIL, // Use your Gmail address
+        pass: process.env.PASSWORD,  // Use your Gmail app-specific password
       },
     });
 

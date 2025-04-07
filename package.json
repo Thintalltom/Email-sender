@@ -1,6 +1,25 @@
 {
+  "name": "vercel_email",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Thintalltom/Email-sender#readme",
+  "bugs": {
+    "url": "https://github.com/Thintalltom/Email-sender/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thintalltom/Email-sender.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "Email_service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "axios": "^1.8.4",
     "nodemailer": "^6.10.0"
-  }
+  },
+  "devDependencies": {}
 }
