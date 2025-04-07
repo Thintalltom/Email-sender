@@ -1,5 +1,3 @@
-// /api/send-email.js
-
 import nodemailer from 'nodemailer';
 import allowCors from './allowCors';
 
