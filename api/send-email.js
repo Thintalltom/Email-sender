@@ -1,16 +1,25 @@
+// /api/send-email.js
+
 import nodemailer from 'nodemailer';
 
-export default async function handler(req, res) {
-  // Enable CORS by setting headers directly
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with your frontend URL for more security
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const allowCors = fn => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-  // Handle OPTIONS preflight request
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
+  return await fn(req, res);
+};
+
+const handler = async (req, res) => {
   if (req.method === 'POST') {
     const { email, orderSummary } = req.body;
 
@@ -33,34 +42,32 @@ export default async function handler(req, res) {
       <p>Best regards,<br>IKYSLE</p>
     `;
 
-    // Create the Nodemailer transport object using SMTP
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com', // Gmail SMTP server
+      host: 'smtp.gmail.com',
       port: 587,
       secure: false,
       auth: {
-        user: process.env.EMAIL, // Your email
-        pass: process.env.PASSWORD, // Your app password (Gmail) or SMTP password
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: process.env.EMAIL, // sender address
-      to: email, // recipient email
+      from: process.env.EMAIL,
+      to: email,
       subject: 'Your Order Summary',
-      text: 'Thank you for your order!',
-      html: htmlContent, // HTML content of the email
+      html: htmlContent,
     };
 
     try {
-      // Send the email
       await transporter.sendMail(mailOptions);
       res.status(200).json({ message: 'Email sent successfully!' });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
       res.status(500).json({ error: 'Error sending email' });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }
-}
+};
+
+export default allowCors(handler);
