@@ -12,7 +12,7 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "Email_service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
