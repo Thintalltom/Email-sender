@@ -24,12 +24,16 @@ export default async function handler(req, res) {
             <strong>${item.name}</strong><br>
             Quantity: ${item.quantity}<br>
             Price: $${item.price.toFixed(2)}<br>
-            <img src="${item.image}" alt="${item.name}" style="max-width: 100px; height: auto;" />
+            <img src="${item.image}" alt="${item.name}" style="max-width: 100px; height: auto;" /><br>
+            <p>Phone number: ${item.phoneNumber} </p>
+            <p>Address: ${item.address} </p>
+            <p>Total: ${item.Total} </p>
+            <
           </div>`)
         .join('');
 
       const htmlContent = `
-        <h1>Thank you for your order!</h1>
+        <h1>🛒 New Order Placed!</h1>
         <p>Here are your order details:</p>
         ${orderDetails}
         <p>Best regards,<br>IKYSLE</p>
@@ -46,8 +50,8 @@ export default async function handler(req, res) {
 
       const mailOptions = {
         from: process.env.EMAIL,
-        to: email,
-        subject: 'Your Order Summary',
+        to: process.env.EMAIL,
+        subject: '🛒 New Order Placed!',
         html: htmlContent,
       };
 
