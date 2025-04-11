@@ -19,20 +19,35 @@ export default async function handler(req, res) {
       }
 
       const orderDetails = orderSummary
-        .map(item => `
-          <div style="margin-bottom: 10px;">
-            <strong>${item.name}</strong><br>
-            Quantity: ${item.quantity}<br>
-            Price: $${item.price.toFixed(2)}<br>
-            <img src="${item.image}" alt="${item.name}" style="max-width: 100px; height: auto;" />
-          </div>`)
-        .join('');
+      .map(item => `
+        <div style="
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 15px;
+          margin-bottom: 15px;
+          display: flex;
+          align-items: center;
+          background-color: #f9f9f9;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        ">
+          <img src="${item.image}" alt="${item.name}" 
+               style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;" />
+          <div style="flex: 1;">
+            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${item.name}</p>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
+              Quantity: <span style="color: #000;">${item.quantity}</span><br>
+              Price: <span style="color: green;">$${item.price.toFixed(2)}</span>
+            </p>
+          </div>
+        </div>
+      `).join('');
+      
 
       const htmlContent = `
         <h1>Thank you for your order!</h1>
-        <p>Here are your order details:</p>
+        <p>Here are the order details:</p>
         ${orderDetails}
-        <p>Best regards,<br>IKYSLE</p>
+        <p>Best regards,<br>Big T ecom</p>
       `;
 
       // Use correct Gmail transport config
