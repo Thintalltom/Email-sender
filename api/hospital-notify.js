@@ -12,14 +12,15 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const { email, orderSummary } = req.body;
+      const { email, clientDetails  } = req.body;
 
-      if (!email || !Array.isArray(orderSummary)) {
+      if (!email || !Array.isArray(clientDetails )) {
         return res.status(400).json({ error: 'Invalid request payload' });
       }
 
-      const orderDetails = orderSummary
-      .map(item => `
+      const orderDetails = clientDetails 
+       .map(
+          (item) => `
         <div style="
           border: 1px solid #ddd;
           border-radius: 8px;
@@ -30,26 +31,25 @@ export default async function handler(req, res) {
           background-color: #f9f9f9;
           box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         ">
-       
+          
                style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;" />
           <div style="flex: 1;">
             <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${item.name}</p>
             <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
-              ${item.email}
+             Phone Number: <span style="color: #000;">${item.phone}</span><br>
+             
             </p>
-            <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
-              ${item.information}
-            </p>
+             <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${item.diagnosis}</p>
           </div>
         </div>
       `).join('');
       
 
       const htmlContent = `
-        <h1>Thank you for your order!</h1>
-        <p>Here are the order details:</p>
+        <h1> New Client Request!</h1>
+        <p>Here is the client details:</p>
         ${orderDetails}
-        <p>Best regards,<br>Big T ecom</p>
+        <p>Best regards,<br>High Integrated Consultant</p>
       `;
 
       // Use correct Gmail transport config
@@ -63,8 +63,8 @@ export default async function handler(req, res) {
 
       const mailOptions = {
         from: process.env.EMAIL,
-        to: email,
-        subject: 'Your Order Summary',
+        to: process.env.EMAIL,
+        subject: 'New Client Request!',
         html: htmlContent,
       };
 
