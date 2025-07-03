@@ -18,38 +18,39 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid request payload' });
       }
 
-      const orderDetails = orderSummary
-      .map(item => `
-        <div style="
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 15px;
-          margin-bottom: 15px;
-          display: flex;
-          align-items: center;
-          background-color: #f9f9f9;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        ">
-       
-               style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;" />
-          <div style="flex: 1;">
-            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${item.name}</p>
-            <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
-              ${item.email}
-            </p>
-            <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
-              ${item.information}
-            </p>
-          </div>
-        </div>
-      `).join('');
+     const orderDetails = orderSummary
+  .map(item => `
+    <div style="
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    ">
+      <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">
+        ${item.subject}
+      </p>
+      <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
+        ${item.name}
+      </p>
+      <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
+        ${item.email}
+      </p>
+      <p style="margin: 5px 0 0; font-size: 14px; color: #555; white-space: pre-wrap;">
+        ${item.message}
+      </p>
+    </div>
+  `)
+  .join('');
+
       
 
       const htmlContent = `
-        <h1>Thank you for your order!</h1>
-        <p>Here are the order details:</p>
+        <h1>Hey Tomide, hey have an email from a client</h1>
+        <p>Here are the clients details:</p>
         ${orderDetails}
-        <p>Best regards,<br>Big T ecom</p>
+        <p>Best regards</p>
       `;
 
       // Use correct Gmail transport config
@@ -64,7 +65,7 @@ export default async function handler(req, res) {
       const mailOptions = {
         from: process.env.EMAIL,
         to: email,
-        subject: 'Your Order Summary',
+        subject: 'You received mail from a client',
         html: htmlContent,
       };
 
