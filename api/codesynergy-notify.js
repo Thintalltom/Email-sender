@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
     if (req.method === 'OPTIONS') {
       return res.status(200).end();
@@ -52,7 +52,9 @@ export default async function handler(req, res) {
 
       // Use correct Gmail transport config
       const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        service: 'gmail',
+        port: 587,
+        secure: false,
         auth: {
           user: process.env.EMAIL,
           pass: process.env.PASSWORD,
