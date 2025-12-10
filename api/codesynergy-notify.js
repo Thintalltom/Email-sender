@@ -11,16 +11,15 @@ export default async function handler(req, res) {
       return res.status(200).end();
     }
 
-    if (req.method === 'POST') {
-      const { email, clientDetails  } = req.body;
-
-      if (!email || !Array.isArray(clientDetails )) {
+    if (req.method === "POST") {
+      const { fullName, Email, Number, Course } = req.body;
+      
+      
+      if (!Email || !fullName || !Number || !Course) {
         return res.status(400).json({ error: 'Invalid request payload' });
       }
 
-      const orderDetails = clientDetails 
-       .map(
-          (item) => `
+      const orderDetails = `
         <div style="
           border: 1px solid #ddd;
           border-radius: 8px;
@@ -34,23 +33,21 @@ export default async function handler(req, res) {
           
                style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px;" />
           <div style="flex: 1;">
-            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">Full Name: ${item.name}</p>
+            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">Full Name:</p>
             <p style="margin: 5px 0 0; font-size: 14px; color: #555;">
-             Email Address: <span style="color: #000;">${item.address}</span><br>
-             
+             Email Address:<span style="color:#000;">${Email}</span><br>
+             Number:<span style="color:#000;">${Number}</span><br>
+             Course of Interest:<span style="color:#000;">${Course}</span>
             </p>
-             <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">Whatsapp Number: ${item.number}</p>
-             <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">Course of Interest: ${item.course}</p>
           </div>
         </div>
-      `).join('');
-      
+      `;
 
       const htmlContent = `
         <h1> New Class Subscriber Codesynergy!</h1>
         <p>Here is the Subscriber's details:</p>
         ${orderDetails}
-        <p>Best regards,<br>High Integrated Consultant</p>
+        <p>Best regards,<br>CodeSynergy</p>
       `;
 
       // Use correct Gmail transport config
