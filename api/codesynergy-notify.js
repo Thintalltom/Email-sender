@@ -16,14 +16,11 @@ export default async function handler(req, res) {
   }
 
   try {
-
-    if (req.method === "POST") {
-      const { fullName, Email, Number, Course } = req.body;
-      
-      
-      if (!Email || !fullName || !Number || !Course) {
-        return res.status(400).json({ error: 'Invalid request payload' });
-      }
+    const { fullName, Email, Number, Course } = req.body;
+    
+    if (!Email || !fullName || !Number || !Course) {
+      return res.status(400).json({ error: 'Invalid request payload' });
+    }
 
       const orderDetails = `
         <div style="
@@ -74,13 +71,10 @@ export default async function handler(req, res) {
         html: htmlContent,
       };
 
-      await transporter.sendMail(mailOptions);
-      return res.status(200).json({ message: 'Email sent successfully!' });
-    }
-
-
+    await transporter.sendMail(mailOptions);
+    return res.status(200).json({ message: 'Email sent successfully!' });
   } catch (error) {
     console.error('[Email API Error]', error);
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: 'Internal server error while processing email.' });
   }
 }
