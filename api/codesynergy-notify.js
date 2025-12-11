@@ -81,6 +81,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('[Email API Error]', error);
-    res.status(500).json({ error: 'Internal server error while processing email.' });
+    res.status(500).json({ error: error });
   }
 }
